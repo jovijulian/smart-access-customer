@@ -191,29 +191,28 @@ export function CreateGuest() {
                                 />
                             </div>
 
-                            <div className="grid grid-cols-2 gap-4">
-                                <div className="space-y-2">
-                                    <label className="text-sm font-medium text-textSecondary">Date</label>
-                                    <input
-                                        required
-                                        name="date"
-                                        type="date"
-                                        min={todayDateStr}
-                                        value={formDate}
-                                        onChange={(e) => setFormDate(e.target.value)}
-                                        className="w-full bg-surface border border-border rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-primary transition-colors text-base [color-scheme:dark]"
-                                    />
-                                </div>
-                                <div className="space-y-2">
-                                    <label className="text-sm font-medium text-textSecondary">Time</label>
-                                    <input
-                                        required
-                                        name="time"
-                                        type="time"
-                                        min={formDate === todayDateStr ? currentTimeStr : undefined}
-                                        className="w-full bg-surface border border-border rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-primary transition-colors text-base [color-scheme:dark]"
-                                    />
-                                </div>
+
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium text-textSecondary">Date</label>
+                                <input
+                                    required
+                                    name="date"
+                                    type="date"
+                                    min={todayDateStr}
+                                    value={formDate}
+                                    onChange={(e) => setFormDate(e.target.value)}
+                                    className="w-full bg-surface border border-border rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-primary transition-colors text-base [color-scheme:dark]"
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium text-textSecondary">Time</label>
+                                <input
+                                    required
+                                    name="time"
+                                    type="time"
+                                    min={formDate === todayDateStr ? currentTimeStr : undefined}
+                                    className="w-full bg-surface border border-border rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-primary transition-colors text-base [color-scheme:dark]"
+                                />
                             </div>
 
                             <div className="space-y-2">

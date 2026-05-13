@@ -24,12 +24,12 @@ export function Login() {
                         <span className="font-bold text-white text-3xl">S</span>
                     </div>
                     <h1 className="text-3xl font-bold text-white mb-2 tracking-tight">Smart Access</h1>
-                    <p className="text-textSecondary text-sm">Masuk untuk mengelola akses properti Anda</p>
+                    <p className="text-textSecondary text-sm">Sign in to manage your property access</p>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="space-y-2">
-                        <label className="text-sm font-medium text-textSecondary">Nomor Handphone</label>
+                        <label className="text-sm font-medium text-textSecondary">Phone Number</label>
                         <div className="relative">
                             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                                 <span className="text-textSecondary font-medium">+62</span>
@@ -51,7 +51,7 @@ export function Login() {
                         className="w-full py-6 text-base font-semibold bg-primary hover:bg-primary/90 text-black flex items-center justify-center space-x-2 rounded-xl"
                         disabled={phone.length < 8}
                     >
-                        <span>Kirim Kode OTP</span>
+                        <span>Send OTP</span>
                         <ArrowRight className="w-5 h-5" />
                     </Button>
                 </form>

@@ -13,20 +13,6 @@ export function Home() {
             location: 'Main Gate',
             image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fit=crop&w=100&h=100&q=80'
         },
-        {
-            id: 'REQ-9922',
-            name: 'Ibu Siti Khadijah',
-            role: 'Tamu Keluarga',
-            location: 'Gate 2',
-            image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?fit=crop&w=100&h=100&q=80'
-        },
-        {
-            id: 'REQ-9923',
-            name: 'Mas Anton (GoFood)',
-            role: 'Delivery',
-            location: 'Main Gate',
-            image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?fit=crop&w=100&h=100&q=80'
-        }
     ]);
     const unitData = {
         unit_id: 'UID-001',
@@ -86,7 +72,7 @@ export function Home() {
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
                             <h3 className="text-sm font-semibold text-textSecondary uppercase tracking-wider">
-                                Need My Approval
+                              Guest Requests
                             </h3>
 
                         </div>

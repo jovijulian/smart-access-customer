@@ -56,9 +56,9 @@ export function OTPVerification() {
                     <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-6">
                         <ShieldCheck className="w-7 h-7 text-primary" />
                     </div>
-                    <h2 className="text-2xl font-bold text-white mb-2">Verifikasi OTP</h2>
+                    <h2 className="text-2xl font-bold text-white mb-2">OTP Verification</h2>
                     <p className="text-textSecondary text-sm leading-relaxed">
-                        Masukkan 4 digit kode yang telah kami kirimkan ke WhatsApp <br />
+                        Enter the 4 digit code we have sent to WhatsApp <br />
                         <span className="font-semibold text-white">+62 {phone}</span>
                     </p>
                 </div>
@@ -84,11 +84,11 @@ export function OTPVerification() {
                         className="w-full py-4 text-base font-semibold bg-primary hover:bg-primary/90 text-black rounded-xl"
                         disabled={otp.join('').length < 4}
                     >
-                        Verifikasi & Masuk
+                        Verify & Login
                     </Button>
 
                     <p className="text-center text-sm text-textSecondary mt-6">
-                        Belum menerima kode? <button type="button" className="text-primary font-medium hover:underline">Kirim Ulang</button>
+                        Haven't received the code? <button type="button" className="text-primary font-medium hover:underline">Resending</button>
                     </p>
                 </form>
             </div>
