@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { User, CreditCard, ArrowLeft } from 'lucide-react';
+import { User, CreditCard, ArrowLeft, Car } from 'lucide-react';
 import { HeaderBack } from '@/components/layout/HeaderBack';
 
 export function ResidentDetail() {
@@ -80,12 +80,32 @@ export function ResidentDetail() {
                         <p className="text-sm text-textSecondary mb-3">
                             Vehicles ({resident.assets.vehicles.length})
                         </p>
-                        <div className="space-y-3">
+                        {/* <div className="space-y-3">
                             {resident.assets.vehicles.map((vehicle, idx) => (
                                 <div key={idx} className="flex items-center justify-between px-4 py-3 border border-border rounded-lg bg-background">
                                     <span className="font-medium text-white">{vehicle.plate}</span>
                                     <span className="text-sm text-textSecondary">{vehicle.type}</span>
                                     <span className="font-mono text-sm text-primary">{vehicle.uhf}</span>
+                                </div>
+                            ))}
+                        </div> */}
+                        <div className="space-y-3">
+                            {resident.assets.vehicles.map((v, i) => (
+                                <div key={i} className="flex items-center justify-between p-3 bg-background border border-border rounded-xl">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-8 h-8 rounded-lg bg-surface flex items-center justify-center">
+                                            <Car className="w-4 h-4 text-textSecondary" />
+                                        </div>
+                                        <div>
+                                            <p className="text-sm font-bold text-white uppercase">{v.plate}</p>
+                                            <p className="text-[10px] text-textSecondary uppercase">{v.type}</p>
+                                        </div>
+                                    </div>
+                                    {v.uhf !== '-' && (
+                                        <span className="text-[10px] font-mono text-primary bg-primary/10 px-2 py-1 rounded border border-primary/20">
+                                            {v.uhf}
+                                        </span>
+                                    )}
                                 </div>
                             ))}
                         </div>
