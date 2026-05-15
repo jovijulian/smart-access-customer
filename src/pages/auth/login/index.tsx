@@ -20,7 +20,7 @@ export function Login() {
 
             <div className="flex-1 flex flex-col justify-center max-w-sm mx-auto w-full">
                 <div className="mb-10 text-center">
-                    <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-tr from-primary to-secondary flex items-center justify-center shadow-[0_0_30px_rgba(0,230,118,0.3)] mb-6">
+                    <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-tr from-primary to-secondary flex items-center justify-center mb-6">
                         <span className="font-bold text-white text-3xl">S</span>
                     </div>
                     <h1 className="text-3xl font-bold text-white mb-2 tracking-tight">Smart Access</h1>
