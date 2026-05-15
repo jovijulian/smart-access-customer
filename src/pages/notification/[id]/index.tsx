@@ -13,11 +13,28 @@ import {
     CalendarDays
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Modal } from '@/components/ui/Modal';
+import { Select } from '@/components/ui/Select';
+import _ from 'lodash';
 
 export function NotificationDetail() {
     const navigate = useNavigate();
     const { id } = useParams();
     const [actionStatus, setActionStatus] = useState<'PENDING' | 'APPROVED' | 'REJECTED'>('PENDING');
+    const [actionRequest, setActionRequest] = useState<{ id: string, name: string } | null>(null);
+    const [showApproveModal, setShowApproveModal] = useState(false);
+    const [approveDuration, setApproveDuration] = useState('1 hour');
+    const [showRejectModal, setShowRejectModal] = useState(false);
+    const [rejectReason, setRejectReason] = useState('');
+
+    const durationOptions = [
+        { value: '1 hour', label: '1 hour' },
+        { value: '3 hours', label: '3 hours' },
+        { value: '6 hours', label: '6 hours' },
+        { value: '12 hours', label: '12 hours' },
+        { value: '24 hours', label: '24 hours' },
+    ];
+
     const requestData = {
         id: id || 'REQ-9921',
         guestName: 'Bpk. Supriyanto',
@@ -34,12 +51,45 @@ export function NotificationDetail() {
     const handleApprove = () => {
         if (confirm('Izinkan tamu ini masuk? Gate akan otomatis terbuka.')) {
             setActionStatus('APPROVED');
-            setTimeout(() => navigate('/home'), 2000); 
+            setTimeout(() => navigate('/home'), 2000);
         }
     };
 
     const handleReject = () => {
         if (confirm('Tolak tamu ini? Satpam akan diinformasikan.')) {
+            setActionStatus('REJECTED');
+            setTimeout(() => navigate('/home'), 2000);
+        }
+    };
+
+    const handleQuickApprove = (id: string, name: string) => {
+        setActionRequest({ id, name });
+        setApproveDuration('1 Hour');
+        setShowApproveModal(true);
+    };
+
+    const handleQuickReject = (id: string, name: string) => {
+        setActionRequest({ id, name });
+        setRejectReason('');
+        setShowRejectModal(true);
+    };
+
+    const confirmApprove = () => {
+        if (actionRequest) {
+            alert(`Access granted for ${actionRequest.name}. Duration: ${approveDuration}. Gate opened.`);
+            setShowApproveModal(false);
+            setActionRequest(null);
+            setActionStatus('APPROVED');
+            setTimeout(() => navigate('/home'), 2000);
+        }
+    };
+
+    const confirmReject = () => {
+        if (actionRequest) {
+            // setPendingApprovals(prev => prev.filter(req => req.id !== actionRequest.id));
+            console.log(`Rejected ${actionRequest.name}. Reason: ${rejectReason || 'No reason provided'}`);
+            setShowRejectModal(false);
+            setActionRequest(null);
             setActionStatus('REJECTED');
             setTimeout(() => navigate('/home'), 2000);
         }
@@ -143,23 +193,103 @@ export function NotificationDetail() {
                 {actionStatus === 'PENDING' && (
                     <div className="absolute bottom-0 w-full p-4 bg-background/95 border-t border-border backdrop-blur-md flex items-center gap-3 shrink-0 z-20">
                         <button
-                            onClick={handleReject}
+                            onClick={() => handleQuickReject(requestData.id, requestData.guestName)}
                             className="flex-1 py-3.5 bg-transparent border border-red-500/50 text-red-500 hover:bg-red-500/10 font-bold rounded-xl transition-colors flex items-center justify-center gap-2"
                         >
-                            {/* <XCircle className="w-5 h-5" /> */}
                             Reject
                         </button>
 
                         <button
-                            onClick={handleApprove}
+                            onClick={() => handleQuickApprove(requestData.id, requestData.guestName)}
                             className="flex-1 py-3.5 bg-primary hover:bg-primary/90 text-black font-bold rounded-xl transition-colors shadow-[0_0_20px_rgba(0,230,118,0.15)] flex items-center justify-center gap-2"
                         >
-                            {/* <CheckCircle2 className="w-5 h-5" /> */}
                             Approve
                         </button>
                     </div>
                 )}
             </div>
+            {showApproveModal && (
+                    <Modal
+                        isOpen={showApproveModal}
+                        onClose={() => setShowApproveModal(false)}
+                        title="Approve Guest"
+                        width="md"
+                        footer={
+                            <div className="flex gap-3 justify-end w-full mt-4">
+                                <button
+                                    onClick={() => setShowApproveModal(false)}
+                                    className="flex-[0.5] py-3.5 bg-background border border-border text-gray-300 font-semibold rounded-xl hover:bg-white/5 transition-colors text-sm"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    onClick={confirmApprove}
+                                    className="flex-[1.2] py-3.5 bg-primary hover:bg-primary/90 text-black font-bold rounded-xl transition-all text-sm shadow-[0_0_20px_rgba(0,230,118,0.15)]"
+                                >
+                                    Confirm Approve
+                                </button>
+                            </div>
+                        }
+                    >
+                        <div className="space-y-4">
+                            <p className="text-sm text-textSecondary">
+                                Please select the allowed visit duration for <strong>{actionRequest?.name}</strong>.
+                            </p>
+                            <div className="space-y-2">
+                                <label className="block text-sm font-medium text-textSecondary">Duration</label>
+                                <input type="hidden" name="duration" value={approveDuration} />
+                                <Select
+                                    options={durationOptions}
+                                    value={_.find(durationOptions, { value: approveDuration })}
+                                    placeholder="Select duration"
+                                    onValueChange={(option: any) => {
+                                        setApproveDuration(option?.value || '1 hour');
+                                    }}
+                                />
+                            </div>
+                        </div>
+                    </Modal>
+                )}
+
+                {showRejectModal && (
+                    <Modal
+                        isOpen={showRejectModal}
+                        onClose={() => setShowRejectModal(false)}
+                        title="Reject Guest"
+                        width="md"
+                        footer={
+                            <div className="flex gap-3 justify-end w-full mt-4">
+                                <button
+                                    onClick={() => setShowRejectModal(false)}
+                                    className="flex-[0.5] py-3.5 bg-background border border-border text-gray-300 font-semibold rounded-xl hover:bg-white/5 transition-colors text-sm"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    onClick={confirmReject}
+                                    className="flex-[1.2] py-3.5 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl transition-all text-sm"
+                                >
+                                    Confirm Reject
+                                </button>
+                            </div>
+                        }
+                    >
+                        <div className="space-y-4">
+                            <p className="text-sm text-textSecondary">
+                                Are you sure you want to deny access for <strong>{actionRequest?.name}</strong>?
+                            </p>
+                            <div className="space-y-2">
+                                <label className="block text-sm font-medium text-textSecondary">Reason <span className="text-textSecondary/50 font-normal">(Optional)</span></label>
+                                <textarea
+                                    value={rejectReason}
+                                    onChange={(e) => setRejectReason(e.target.value)}
+                                    placeholder="e.g. No guests are expected today"
+                                    className="block w-full bg-surface border border-border rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-red-500 transition-colors text-sm min-h-[100px] resize-none"
+                                />
+                            </div>
+                        </div>
+                    </Modal>
+                )}
         </div>
     );
 }

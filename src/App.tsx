@@ -12,6 +12,9 @@ import { Billing } from './pages/billing';
 import { GuestDetail } from './pages/guest/[id]';
 import { NotificationList } from './pages/notification';
 import { NotificationDetail } from './pages/notification/[id]';
+import { Emergency } from './pages/emergency';
+import { ReportDetail } from './pages/emergency/[id]';
+import { CreateReport } from './pages/emergency/create';
 
 function App() {
   return (
@@ -23,14 +26,17 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/verify-otp" element={<OTPVerification />} />
             <Route path="/guest/create" element={<CreateGuest />} />
+            <Route path="/emergency/create" element={<CreateReport />} />
             <Route path="/billing" element={<Billing />} />
             <Route path="/guest/:id" element={<GuestDetail />} />
+            <Route path="/emergency/:id" element={<ReportDetail />} />
             <Route path="/notification" element={<NotificationList />} />
             <Route path="/notification/:id" element={<NotificationDetail />} />
             <Route element={<CustomerMobileLayout />}>
               <Route path="/home" element={<Home />} />
               <Route path="/guest" element={<Guest />} />
               <Route path="/log" element={<Log />} />
+              <Route path="/emergency" element={<Emergency />} />
               <Route path="/profile" element={<Profile />} />
 
               <Route path="/resident/:id" element={<ResidentDetail />} />

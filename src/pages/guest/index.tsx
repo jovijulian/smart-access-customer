@@ -20,6 +20,7 @@ interface Visitor {
     date: string;
     time: string;
     purpose: string;
+    duration?: string;
 }
 
 export function Guest() {
@@ -33,7 +34,8 @@ export function Guest() {
             status: 'Entered',
             date: '2026-05-13',
             time: '14:20',
-            purpose: 'Family Visit'
+            purpose: 'Family Visit',
+            duration: '3 hours'
         },
         {
             id: 'V-1025',
@@ -42,7 +44,8 @@ export function Guest() {
             status: 'Revoked',
             date: '2026-05-13',
             time: '13:15',
-            purpose: 'Package Delivery'
+            purpose: 'Package Delivery',
+            duration: '1 hours'
         },
         {
             id: 'V-1026',
@@ -51,7 +54,8 @@ export function Guest() {
             status: 'Created',
             date: '2026-05-14',
             time: '15:00',
-            purpose: 'Renovation Work'
+            purpose: 'Renovation Work',
+            duration: '1 hours'
         },
         {
             id: 'V-1027',
@@ -60,7 +64,8 @@ export function Guest() {
             status: 'Exit',
             date: '2026-05-12',
             time: '10:00',
-            purpose: 'Meeting'
+            purpose: 'Meeting',
+            duration: '6 hours'
         },
         {
             id: 'V-1028',
@@ -69,7 +74,8 @@ export function Guest() {
             status: 'Overstay',
             date: '2026-05-11',
             time: '09:00',
-            purpose: 'Family Visit'
+            purpose: 'Family Visit',
+            duration: '12 hours'
         }
     ]);
 
@@ -149,34 +155,23 @@ export function Guest() {
                                     <CalendarDays className="w-4 h-4 mr-2 opacity-70" />
                                     {visitor.date}
                                 </div>
+
                                 <div className="flex items-center text-sm text-textSecondary">
                                     <Clock className="w-4 h-4 mr-2 opacity-70" />
                                     {visitor.time}
                                 </div>
                                 <div className="flex items-center text-sm text-textSecondary">
-                                    <Info className="w-4 h-4 mr-2 opacity-70" />
-                                    <span className="truncate">{visitor.purpose}</span>
-                                </div>
-                                <div className="flex items-center text-sm text-textSecondary">
                                     <Users className="w-4 h-4 mr-2 opacity-70" />
                                     {visitor.guestsCount} People
                                 </div>
+                                <div className="flex items-center text-sm text-textSecondary">
+                                    <Hourglass className="w-4 h-4 mr-2 opacity-70" />
+                                    <span className="truncate">{visitor.duration}</span>
+                                </div>
+
                             </div>
 
-                            {visitor.status === 'Entered' && (
-                                <div className="pt-3 mt-1 border-t border-border/50">
-                                    <button
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            handleExtend(visitor.id)
-                                        }}
-                                        className="w-full py-2.5 rounded-lg bg-primary/10 text-primary border border-primary/20 text-sm font-semibold hover:bg-primary/20 flex items-center justify-center gap-2 transition-colors"
-                                    >
-                                        <Hourglass className="w-4 h-4" />
-                                        Extend
-                                    </button>
-                                </div>
-                            )}
+
                         </div>
                     ))
                 ) : (

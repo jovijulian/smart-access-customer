@@ -12,50 +12,167 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { HeaderBack } from '@/components/layout/HeaderBack';
-
+import { useState } from 'react';
+interface Visitor {
+    id: string;
+    name: string;
+    guestsCount: number;
+    status: 'Created' | 'Entered' | 'Exit' | 'Expired' | 'Extend' | 'Overstay' | 'Revoked';
+    date: string;
+    time: string;
+    purpose: string;
+    duration?: string;
+}
 export function GuestDetail() {
     const navigate = useNavigate();
     const { id } = useParams();
-    const guest = {
-        id: id || 'V-1024',
-        name: 'James Wilson',
-        status: 'Entered',
-        date: '13-05-2026',
-        time: '14:20',
-        duration: '12 hours',
-        destination: 'Blok A 01 (Alice Cooper)',
-        purpose: 'Family Visit',
-        guestsCount: 2,
-        activities: [
-            { status: 'Created', datetime: '13-05-2026 • 12:00' },
-            { status: 'Entered', datetime: '13-05-2026 • 14:20' }
-        ]
-    };
 
-    const getStatusColor = (status: string) => {
+    // const guest = {
+    //     id: id || 'V-1024',
+    //     name: 'James Wilson',
+    //     status: 'Entered',
+    //     date: '13-05-2026',
+    //     time: '14:20',
+    //     duration: '12 hours',
+    //     destination: 'Blok A 01 (Alice Cooper)',
+    //     purpose: 'Family Visit',
+    //     guestsCount: 2,
+    //     activities: [
+    //         { status: 'Created', datetime: '13-05-2026 • 12:00' },
+    //         { status: 'Entered', datetime: '13-05-2026 • 14:20' }
+    //     ]
+    // };
+
+    const visitors = [
+        {
+            id: 'V-1024',
+            name: 'James Wilson',
+            guestsCount: 2,
+            status: 'Entered',
+            date: '2026-05-13',
+            time: '14:20',
+            purpose: 'Family Visit',
+            duration: '3 hours',
+            destination: 'Blok A 01 (Alice Cooper)',
+            activities: [
+                { status: 'Created', datetime: '13-05-2026 • 12:00' },
+                { status: 'Entered', datetime: '13-05-2026 • 14:20' }
+            ]
+        },
+        {
+            id: 'V-1025',
+            name: 'Delivery (Amazon)',
+            guestsCount: 1,
+            status: 'Revoked',
+            date: '2026-05-13',
+            time: '13:15',
+            purpose: 'Package Delivery',
+            duration: '1 hours',
+            destination: 'Blok A 01 (Alice Cooper)',
+            activities: [
+                { status: 'Created', datetime: '13-05-2026 • 12:45' },
+                { status: 'Revoked', datetime: '13-05-2026 • 13:15' }
+            ]
+        },
+        {
+            id: 'V-1026',
+            name: 'Contractor',
+            guestsCount: 3,
+            status: 'Created',
+            date: '2026-05-14',
+            time: '15:00',
+            purpose: 'Renovation Work',
+            duration: '1 hours',
+            destination: 'Blok A 01 (Alice Cooper)',
+            activities: [
+                { status: 'Created', datetime: '14-05-2026 • 10:00' }
+            ]
+        },
+        {
+            id: 'V-1027',
+            name: 'Charlie Davis',
+            guestsCount: 1,
+            status: 'Exit',
+            date: '2026-05-12',
+            time: '10:00',
+            purpose: 'Meeting',
+            duration: '6 hours',
+            destination: 'Blok A 01 (Alice Cooper)',
+            activities: [
+                { status: 'Created', datetime: '12-05-2026 • 03:00' },
+                { status: 'Entered', datetime: '12-05-2026 • 04:00' },
+                { status: 'Exit', datetime: '12-05-2026 • 10:00' }
+            ]
+        },
+        {
+            id: 'V-1028',
+            name: 'Diana Prince',
+            guestsCount: 4,
+            status: 'Overstay',
+            date: '2026-05-11',
+            time: '09:00',
+            purpose: 'Family Visit',
+            duration: '12 hours',
+            destination: 'Blok A 01 (Alice Cooper)',
+            activities: [
+                { status: 'Created', datetime: '11-05-2026 • 08:00' },
+                { status: 'Entered', datetime: '11-05-2026 • 09:00' },
+                { status: 'Overstay', datetime: '12-05-2026 • 21:00' }
+            ]
+        }
+    ];
+
+    const guest = visitors.find((r) => r.id === id);
+
+    const getStatusColor = (status: any) => {
         switch (status) {
             case 'Entered':
             case 'Extend':
                 return 'bg-green-500/10 text-green-500 border-green-500/20';
             case 'Created':
                 return 'bg-blue-500/10 text-blue-500 border-blue-500/20';
-            case 'Revoked':
             case 'Overstay':
-                return 'bg-red-500/10 text-red-500 border-red-500/20';
+                return 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20';
             case 'Exit':
             case 'Expired':
                 return 'bg-gray-500/10 text-gray-500 border-gray-500/20';
+            case 'Revoked':
+                return 'bg-red-500/10 text-red-500 border-red-500/20';
             default:
                 return 'bg-surface border-border text-white';
         }
     };
 
+    if (!guest) {
+        return (
+            <div className="flex-1 flex flex-col bg-black h-full">
+                <div className="w-full max-w-md mx-auto h-full flex flex-col relative bg-background border-x border-border shadow-2xl">
+                    <HeaderBack title="Report Not Found" />
+                    <div className="flex-1 flex items-center justify-center">
+                        <p className="text-textSecondary">Guest ID {id} not found.</p>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    const canExtend =
+        guest.status === 'Entered' || guest.status === 'Overstay';
+
+    const canRevoke =
+        guest.status === 'Created';
+
+    const canShowActions =
+        guest.status !== 'Exit' && guest.status !== 'Revoked';
+
+    const hasActions =
+        canExtend || canRevoke || canShowActions;
+
     const handleExtend = () => {
-        if(confirm('Would you like to extend this guest access?')) {
+        if (confirm('Would you like to extend this guest access?')) {
             alert('Guest access successfully extended!');
         }
     };
-
     const handleShare = () => {
         if (navigator.share) {
             navigator.share({
@@ -88,6 +205,12 @@ export function GuestDetail() {
             window.URL.revokeObjectURL(blobUrl);
         } catch (error) {
             console.error('Download failed:', error);
+        }
+    }
+
+    const handleRevoke = () => {
+        if (confirm('Are you sure you want to revoke this guest access?')) {
+            alert('Guest access successfully revoked!');
         }
     }
 
@@ -171,32 +294,49 @@ export function GuestDetail() {
                     </section>
 
                 </main>
-                {guest.status === 'Entered' && (
+                {hasActions && (
                     <div className="absolute bottom-0 w-full p-4 bg-background/95 border-t border-border backdrop-blur-md flex items-center gap-3 shrink-0 z-20">
-                        <button 
-                            onClick={handleExtend}
-                            className="flex-1 py-3.5 bg-primary hover:bg-primary/90 text-black font-bold rounded-xl transition-colors shadow-[0_0_20px_rgba(0,230,118,0.15)] flex items-center justify-center gap-2"
-                        >
-                            Extend
-                        </button>
 
-                        <button 
-                            title="Download QR"
-                            onClick={handleDownload}
-                            className="p-3.5 bg-surface border border-border rounded-xl text-white hover:bg-surfaceHover transition-colors flex items-center justify-center shrink-0"
-                        >
-                            <Download className="w-5 h-5" />
-                        </button>
+                        {canExtend && (
+                            <button
+                                onClick={handleExtend}
+                                className="flex-1 py-3.5 bg-primary hover:bg-primary/90 text-black font-bold rounded-xl transition-colors shadow-[0_0_20px_rgba(0,230,118,0.15)] flex items-center justify-center gap-2"
+                            >
+                                Extend
+                            </button>
+                        )}
 
-                        <button 
-                            title="Share QR"
-                            onClick={handleShare}
-                            className="p-3.5 bg-surface border border-border rounded-xl text-white hover:bg-surfaceHover transition-colors flex items-center justify-center shrink-0"
-                        >
-                            <Share2 className="w-5 h-5" />
-                        </button>
+                        {canRevoke && (
+                            <button
+                                onClick={handleRevoke}
+                                className="flex-1 py-3.5 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl transition-colors"
+                            >
+                                Revoke
+                            </button>
+                        )}
+
+                        {canShowActions && (
+                            <>
+                                <button
+                                    title="Download QR"
+                                    onClick={handleDownload}
+                                    className="p-3.5 bg-surface border border-border rounded-xl text-white hover:bg-surfaceHover transition-colors flex items-center justify-center shrink-0"
+                                >
+                                    <Download className="w-5 h-5" />
+                                </button>
+
+                                <button
+                                    title="Share QR"
+                                    onClick={handleShare}
+                                    className="p-3.5 bg-surface border border-border rounded-xl text-white hover:bg-surfaceHover transition-colors flex items-center justify-center shrink-0"
+                                >
+                                    <Share2 className="w-5 h-5" />
+                                </button>
+                            </>
+                        )}
                     </div>
                 )}
+
             </div>
         </div>
     );

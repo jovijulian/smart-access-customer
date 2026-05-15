@@ -1,5 +1,5 @@
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
-import { Home, Users, ClipboardList, User } from 'lucide-react';
+import { Home, Users, ClipboardList, User, MessageCircleWarning, AlertTriangle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export function CustomerMobileLayout() {
@@ -10,6 +10,7 @@ export function CustomerMobileLayout() {
         { id: 'home', label: 'Home', icon: Home, path: '/home' },
         { id: 'guest', label: 'Guest', icon: Users, path: '/guest' },
         { id: 'log', label: 'Log', icon: ClipboardList, path: '/log' },
+        { id: 'emergency', label: 'Emergency', icon: AlertTriangle, path: '/emergency' },
         { id: 'profile', label: 'Profile', icon: User, path: '/profile' },
     ];
 
