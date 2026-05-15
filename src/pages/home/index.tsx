@@ -172,7 +172,7 @@ export function Home() {
                                         </button>
                                         <button
                                             onClick={() => handleQuickApprove(request.id, request.name)}
-                                            className="flex-1 py-2.5 bg-primary hover:bg-primary/90 text-black font-bold rounded-xl transition-colors shadow-[0_0_20px_rgba(0,230,118,0.15)] flex items-center justify-center gap-2"
+                                            className="flex-1 py-2.5 bg-primary hover:bg-primary/90 text-black font-bold rounded-xl transition-colors flex items-center justify-center gap-2"
                                         >
                                             Approve
                                         </button>
@@ -218,7 +218,6 @@ export function Home() {
                             </div>
                         </div>
 
-                        <div className="absolute -right-10 -bottom-10 w-32 h-32 bg-primary/5 rounded-full blur-2xl pointer-events-none"></div>
                     </div>
                 </section>
 
@@ -288,7 +287,7 @@ export function Home() {
                             onClick={handlePanicClick}
                             className="relative w-40 h-40 rounded-full flex flex-col items-center justify-center group"
                         >
-                            <div className="absolute inset-0 rounded-full bg-red-600/50 blur-2xl group-hover:bg-red-500/70 transition-all duration-300" />
+                            {/* <div className="absolute inset-0 rounded-full bg-red-600/50 blur-2xl group-hover:bg-red-500/70 transition-all duration-300" /> */}
                             <div className="absolute inset-0 rounded-full bg-red-700 border-4 border-red-900 shadow-inner group-active:scale-95 transition-all" />
                             <AlertTriangle className="relative w-10 h-10 text-white group-hover:animate-bounce" />
                             <span className="relative text-xl font-bold text-white uppercase mt-1">SOS</span>
@@ -349,7 +348,7 @@ export function Home() {
                                 </button>
                                 <button
                                     onClick={confirmApprove}
-                                    className="flex-[1.2] py-3.5 bg-primary hover:bg-primary/90 text-black font-bold rounded-xl transition-all text-sm shadow-[0_0_20px_rgba(0,230,118,0.15)]"
+                                    className="flex-[1.2] py-3.5 bg-primary hover:bg-primary/90 text-black font-bold rounded-xl transition-all text-sm"
                                 >
                                     Confirm Approve
                                 </button>
